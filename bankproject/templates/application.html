@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>APPLICATION FORM</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4">
+               <form action="apply" method="post">
+    {% csrf_token %}
+    <input type="text" name="Name" placeholder="Applicant Name"><br>
+    <input type="date" name="Date" placeholder="Date of Birth"><br>
+    <input type="number" name="Age" placeholder="Enter Age"><br>
+    <label>Gender</label>
+    <select>
+        <option>Female</option>
+        <option>Male</option>
+        <option>Others</option>
+    </select><br>
+    <input type="number" name="Phone" placeholder="Enter your phone number"><br>
+    <input type="email" name="Email" placeholder="Enter your mail id"><br>
+    <input type="text" name="Address" placeholder="Address"><br>
+<!--    <label>Choose District</label>-->
+<!--    <select name="District">-->
+<!--        <option value="0">Select District</option>-->
+         <select name="district" id="district" class="form-control">
+            <option value="0">Select District</option>
+            {% for item in dist  %}
+            <option value="{{ item.id }}">{{item.district}}</option>
+            {% endfor %}
+        </select><br>
+     <select name="branch" id="branch" class="form-control">
+         <option value="0">Select Branch</option>
+         {% for item in branch %}
+            <option value="{{ item.district_id }}">{{item.branch}}</option>
+            {% endfor %}
+        </select><br>
+
+
+    <select>
+        <option value="0">Select Account type</option>
+        <option>Savings Account</option>
+        <option>Current Account</option>
+        <option>Salary Account</option>
+        <option>NRI Account</option>
+    </select><br>
+
+    <label>Materials Provided-</label>
+    <label>Debit Card</label>
+    <input type="checkbox" name="Debit card"><br>
+    <label>Credit Card</label>
+    <input type="checkbox" name="Credit card"><br>
+    <input type="submit">
+<!--    <input type="button" value="logout"><<li><a href="credentials/logout">Logout</a></li>-->
+    <button> <a href="{% url 'credentials:logout' %}">Logout</a></button>
+
+</form>
+</div>
+</div>
+<a href="{% url 'bankapp:demo' %}">home</a>
+</div>
+ </div>
+<script>
+
+
+$(document).ready(function(){
+
+ var districtvar = $("#district");
+ var branchvar = $("#branch");
+ var $options = branchvar.find('option');
+ districtvar.on('change',function(){
+ branchvar.html($options.filter('[value="'+ this.value  +'"]'));
+ }).trigger('change');
+
+
+});
+</script>
+</body>
+</html>
